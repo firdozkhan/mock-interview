@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { chatSession } from "../../Utils/GeminiModel";
+import InterviewPage from '../Components/InterviewPage';
 
 const QuestionsPage = () => {
   const [questionAndAnswerList, setQuestionAndAnswerList] = useState(null);
@@ -35,8 +36,20 @@ const QuestionsPage = () => {
 
   async function getQuestions(interviewInfo) {
     console.log("Getting questions for:", interviewInfo.typeOfInterview, interviewInfo.topic, interviewInfo.levelOfDifficulty);
-    const prompt = `Give 5 questions and answer for ${interviewInfo.typeOfInterview}, on topics ${interviewInfo.topic} with difficulty level of interview set to ${interviewInfo.levelOfDifficulty}. Give it in JSON format.`;
-    const questionList = await chatSession.sendMessage(prompt);
+    const prompt = `Generate 5 interview questions and answers for a ${interviewInfo.typeOfInterview} interview, focusing on ${interviewInfo.topic}, with a difficulty level of ${interviewInfo.levelOfDifficulty}. 
+Provide the output in the following JSON format:
+{
+  "questions": [
+    {
+      "question": "Question text here",
+      "answer": "Answer text here"
+    },
+    ...
+  ]
+}
+Do not include any text before or after the JSON.`
+    // const questionList = await chatSession.sendMessage(prompt);
+    console.log(questionList)
     const questionInJson = questionList.response.text().replace("```json", "").replace("```", "");
     const parsedQuestions = JSON.parse(questionInJson);
     console.log("Parsed questions:", parsedQuestions);
@@ -49,17 +62,9 @@ const QuestionsPage = () => {
 
   return (
     <div>
-      {questionAndAnswerList ? (
-        <div>
-          <h2>Interview Questions</h2>
-          {/* Render your questions and answers here */}
-          <pre>{JSON.stringify(questionAndAnswerList, null, 2)}</pre>
-        </div>
-      ) : (
-        <div>Loading questions...</div>
-      )}
+      <InterviewPage />
     </div>
-  );
-};
+  )
+}
 
 export default QuestionsPage;
