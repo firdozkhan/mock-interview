@@ -1,7 +1,7 @@
 permissions:
   contents: write
 
-name: DevOps-GitHibActions
+name: DevOps-GitHubActions
 on: push
 jobs:
   # Build Job
@@ -23,12 +23,10 @@ jobs:
         with:
           name: production-files
           path: ./dist
-        
- # Deploy Job
+
+  # Deploy Job
   deploy:
-    # Add a dependency to the build job
     needs: build
-    # Specify runner + deployment step
     runs-on: ubuntu-latest
     steps:
       - name: Download artifact
@@ -39,7 +37,5 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.first_cicd }}
+          github_token: ${{ secrets.first_cicd }}  # Ensure you have GH_TOKEN in your secrets
           publish_dir: ./dist
-
-#chanh
