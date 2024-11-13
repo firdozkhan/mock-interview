@@ -42,4 +42,4 @@ jobs:
           github_token: ${{ secrets.first_cicd }}
           publish_dir: ./dist
 
-#chanhes
+#chanh
