@@ -6,4 +6,5 @@ export default defineConfig({
   plugins: [react()],
   //base: '/mock-interview/',
   base: process.env.VITE_BASE_URL || '/',
+  
 })
